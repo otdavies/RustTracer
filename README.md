@@ -1,2 +1,2 @@
 # RustTracer
-A toy path tracer written in ruse
+A toy path tracer written in rust
