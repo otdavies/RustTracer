@@ -1,6 +1,7 @@
-type PrecisionLevel = f32;
+type PrecisionLevel = f64;
 
-struct Vec3 {
+#[derive(Debug, Clone, Copy)]
+pub struct Vec3 {
     pub x: PrecisionLevel,
     pub y: PrecisionLevel,
     pub z: PrecisionLevel,
@@ -19,8 +20,9 @@ impl Vec3 {
         self.x * self.x + self.y * self.y + self.z * self.z
     }
 
-    pub fn normalize(&mut self) {
-        self = self / self.length();
+    pub fn normalized(&self) -> Vec3 {
+        let length = self.length();
+        Vec3::new(self.x / length, self.y / length, self.z / length)
     }
 
     pub fn dot(&self, other: &Vec3) -> PrecisionLevel {
@@ -33,6 +35,10 @@ impl Vec3 {
             self.z * other.x - self.x * other.z,
             self.x * other.y - self.y * other.x,
         )
+    }
+
+    pub fn scalar(&self, scalar: PrecisionLevel) -> Vec3 {
+        Vec3::new(self.x * scalar, self.y * scalar, self.z * scalar)
     }
 }
 
