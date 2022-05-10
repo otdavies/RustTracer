@@ -8,9 +8,22 @@ use vec3::Vec3;
 const IMAGE_WIDTH: usize = 512;
 
 fn ray_color(r: &Ray) -> Vec3 {
+    let center = Vec3::new(0.0, 0.0, -1.0);
+    if hit_sphere(&center, 0.5, r) {
+        return Vec3::new(1.0, 0.0, 0.0);
+    }
     let unit_dir = r.direction.normalized();
     let t = 0.5 * (unit_dir.y + 1.0);
     Vec3::new(1.0, 1.0, 1.0).scalar(1.0 - t) + Vec3::new(0.5, 0.7, 1.0).scalar(t)
+}
+
+fn hit_sphere(center: &Vec3, radius: f64, r: &Ray) -> bool {
+    let oc = r.origin - *center;
+    let a = r.direction.dot(&r.direction);
+    let b = 2.0 * oc.dot(&r.direction);
+    let c = oc.dot(&oc) - radius * radius;
+    let discriminant = b * b - 4.0 * a * c;
+    discriminant > 0.0
 }
 
 fn main() {
